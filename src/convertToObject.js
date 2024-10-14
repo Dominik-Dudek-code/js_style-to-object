@@ -7,12 +7,17 @@
  */
 function convertToObject(sourceString) {
   return sourceString
-    .split(/[;:]/)
+    .split(';')
     .map((trimmedString) => trimmedString.trim())
     .filter((nonEmptyString) => nonEmptyString.length > 0)
-    .reduce((resultObject, currentString, stringIndex, allStrings) => {
-      if (stringIndex % 2 === 0) {
-        resultObject[currentString] = allStrings[stringIndex + 1];
+    .reduce((resultObject, currentString) => {
+      const [key, value] = currentString.split(':');
+
+      if (key && value) {
+        return {
+          ...resultObject,
+          [key.trim()]: value.trim(),
+        };
       }
 
       return resultObject;
